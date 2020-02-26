@@ -1,18 +1,29 @@
 {% extends "_layout.html" %}
 {% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+  {% for message in messages %}
+    <li>{{ message }}</li>
+  {% endfor %}
+  </ul>
+{%endif%}
+{% endwith %}
 <h1 class ="sign-up">New User Sign Up</h1>
-<form method = "POST", action = "{{ url_for('createnew') }}">
-    <div class="form-group">
-        <label for="name">User Name:</label>
-        <input type='text' name='name' class="form-control" />
-        
-        <label for="password">Password:</label>
-        <input type='text' name='password' class="form-control" />
-
-        <label for="username">Full Name:</label>
+<form method = "POST" action = "{{ url_for('createnew') }}">
+    <div class="form-group w-50">
+        <label for="username">User Name:</label>
         <input type='text' name='username' class="form-control" />
+        
+        <label for="email">Email:</label>
+        <input type='text' name='email' class="form-control" />
+
+        <label for="password">Password:</label>
+        <input type='password' name='password' class="form-control" />
+
+        <label for="name">Full Name:</label>
+        <input type='text' name='name' class="form-control" />
     </div>
       <button type="submit" class="btn btn-primary">Register</button>
-
 </form>
 {% endblock %}

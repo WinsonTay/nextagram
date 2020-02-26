@@ -13,21 +13,20 @@ def user_signup():
     return render_template('sign_up.html')
 
 
-@app.route('/new' ,methods = ["POST"])
+@app.route('/new', methods = ['POST'])
 def createnew():
-    name = request.form("")
-    password = request.form("")
-    username = request.form("")
+    name = request.form.get("name")
+    password = request.form.get("password")
+    username = request.form.get("username")
+    email = request.form.get("email")
 
-
-    # u = user.User(name = name, password=password, username =username)
-    # if u.save():
-    #     flash("User successfully created.")
-    #     return redirect(url_for('user_signup'))
-    # else:
-    #     return render_template('/sign_up')
-    print(name,password,username)
-    return redirect(url_for('user_signup'))
+    u = user.User(name = name, password=password, username =username, email = email)
+    if u.save():
+         flash("User successfully created.")
+         return redirect(url_for('user_signup'))
+    else:
+      return render_template('/sign_up')
+  
 
 if __name__ == '__main__':
     app.run()
