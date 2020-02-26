@@ -11,6 +11,7 @@
 {% endwith %}
 <h1 class ="sign-up">New User Sign Up</h1>
 <form method = "POST" action = "{{ url_for('createnew') }}">
+    <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
     <div class="form-group w-50">
         <label for="username">User Name:</label>
         <input type='text' name='username' class="form-control" />
