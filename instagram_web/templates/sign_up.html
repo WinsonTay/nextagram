@@ -11,10 +11,10 @@
 {% endwith %}
 <!-- Error Messages -->
 {% for error in errors if errors|length > 0 %}
-  <li><font color="red">{{error}}</font></li>
+  <li class="error"><font color="red">{{error}}</font></li>
 {% endfor %}
-
-<h1 class ="sign-up">New User Sign Up</h1>
+<div class ="container justify-content-center">
+<h1 class ="">SIGN UP</h1>
 <form method = "POST" action = "{{ url_for('createnew') }}">
     <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
     <div class="form-group w-50">
@@ -32,4 +32,5 @@
     </div>
       <button type="submit" class="btn btn-primary">Register</button>
 </form>
+</div>
 {% endblock %}

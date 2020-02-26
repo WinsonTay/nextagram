@@ -15,6 +15,10 @@ def users():
 def user_signup():
     return render_template('sign_up.html')
 
+@app.route('/login')
+def user_login():
+    return render_template('login.html')
+
 
 @app.route('/new', methods = ['POST'])
 def createnew():
@@ -28,6 +32,12 @@ def createnew():
         return redirect(url_for('user_signup'))
     else:
         return render_template('sign_up.html', errors = u.errors)
+@app.route('/signin', methods = ['POST'])
+def signin():
+    email = request.form.get("email")
+    password = request.form.get("password")
+    login_user = user.User.select(email,password)
+
   
 
 if __name__ == '__main__':
