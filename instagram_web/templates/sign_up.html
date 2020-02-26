@@ -1,0 +1,18 @@
+{% extends "_layout.html" %}
+{% block content %}
+<h1 class ="sign-up">New User Sign Up</h1>
+<form method = "POST", action = "{{ url_for('createnew') }}">
+    <div class="form-group">
+        <label for="name">User Name:</label>
+        <input type='text' name='name' class="form-control" />
+        
+        <label for="password">Password:</label>
+        <input type='text' name='password' class="form-control" />
+
+        <label for="username">Full Name:</label>
+        <input type='text' name='username' class="form-control" />
+    </div>
+      <button type="submit" class="btn btn-primary">Register</button>
+
+</form>
+{% endblock %}
