@@ -9,6 +9,11 @@
   </ul>
 {%endif%}
 {% endwith %}
+<!-- Error Messages -->
+{% for error in errors if errors|length > 0 %}
+  <li><font color="red">{{error}}</font></li>
+{% endfor %}
+
 <h1 class ="sign-up">New User Sign Up</h1>
 <form method = "POST" action = "{{ url_for('createnew') }}">
     <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />

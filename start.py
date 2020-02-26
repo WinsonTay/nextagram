@@ -21,15 +21,13 @@ def createnew():
     name = request.form.get("name")
     password = request.form.get("password")
     username = request.form.get("username")
-    hash_password = generate_password_hash(password)
     email = request.form.get("email")
-
-    u = user.User(name = name, password=hash_password, username =username, email = email)
+    u = user.User(name = name, password=password, username =username, email = email)
     if u.save():
-         flash("User successfully created.")
-         return redirect(url_for('user_signup'))
+        flash("User successfully created.")
+        return redirect(url_for('user_signup'))
     else:
-      return render_template('/sign_up')
+        return render_template('sign_up.html', errors = u.errors)
   
 
 if __name__ == '__main__':
