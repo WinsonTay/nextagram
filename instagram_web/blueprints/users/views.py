@@ -49,6 +49,7 @@ def authenticate():
             session['username'] = login_user.email
             session_username = escape(session['username'])
             flash(f"Welcome back ,{login_user.name}")
+            flash(f"Current sessions , {session_username}")
             return render_template('/home.html')
         else:
             flash("Incorrect Email or Password") 

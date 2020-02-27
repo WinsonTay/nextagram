@@ -14,9 +14,13 @@ app.register_blueprint(users_blueprint, url_prefix="/sessions")
 def internal_server_error(e):
     return render_template('500.html'), 500
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 500
 
 @app.route("/")
 def home():
+    
     return render_template('home.html')
 
 
