@@ -11,7 +11,7 @@
     {% endwith %}
 <div class = "container justify-content-center">
     <h1> Login </h1>
-    <form method = "POST" action = "{{ url_for('createnew') }}">
+    <form method = "POST" action = "{{ url_for('users.login') }}">
         <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
         <div class="form-group w-50">    
             <label for="email">Email:</label>

@@ -8,5 +8,14 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Homepage</h1>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+{% for message in messages %}
+    <li>{{ message }}</li>
+{% endfor %}
+</ul>
+{%endif%}
+{% endwith %}
+  <h1>Welcome to Hell</h1>
 {% endblock %}
