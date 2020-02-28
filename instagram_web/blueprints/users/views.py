@@ -11,11 +11,11 @@ users_blueprint = Blueprint('users',
 @users_blueprint.route('/new', methods=['GET'])
 def new():
     return render_template('users/new.html')
-
+"""
 @users_blueprint.route('/login', methods=['GET'])
 def login():
     return render_template('users/login.html')    
-
+"""
 
 @users_blueprint.route('/', methods=['POST'])
 def create():
@@ -29,7 +29,7 @@ def create():
         return redirect(url_for('users.new'))
     else:
         return render_template('users/new.html', errors = v.errors)
-
+"""
 # authenticate users
 @users_blueprint.route('/authenticate', methods=['GET', 'POST'])
 def authenticate():
@@ -57,7 +57,7 @@ def authenticate():
         flash("Email Does Not Exist")    
         
     return render_template('users/login.html')  
-
+"""
 
 @users_blueprint.route('/<username>', methods=["GET"])
 def show(username):

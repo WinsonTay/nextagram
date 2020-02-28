@@ -29,6 +29,15 @@ class User(BaseModel):
      duplicate_emails = User.get_or_none(User.email == self.email)
      if duplicate_emails:
       self.errors.append("Email already Registered")
+     # FLASK LOGIN CODE
+    def is_authenticated(self):
+        return True
+    def is_active(self):
+        return True
+    def is_anonymous(self):
+        return False
+    def get_id(self):
+        return self.id  
 
 
 
