@@ -70,12 +70,18 @@ def index():
     return render_template('/index.html')
 """
 
-@users_blueprint.route('/<id>/edit', methods=['POST'])
+@users_blueprint.route('/<id>/edit', methods=["GET"])
 @login_required
 def edit(id):
+    userinfo = User.get_by_id(id)
+    return render_template('users/edit.html', userinfo=userinfo)
+
+@users_blueprint.route('/<id>', methods=['POST'])
+@login_required
+def update(id):
     user = User.get_by_id(id)
     update_msg = []
-    if current_user.id == user.id:
+    if current_user.id == user.id: # Check whether current editing user is edit the own profile, if not Block authorization
         new_username = request.form.get("username")
         new_email = request.form.get("email")
         if new_username != user.username:
@@ -101,7 +107,3 @@ def edit(id):
     else:
         flash("You are not authorized to do this")
         return redirect(url_for('users.show', id = id))
-
-# @users_blueprint.route('/<id>', methods=['POST'])
-# def update(id):
-#     pass

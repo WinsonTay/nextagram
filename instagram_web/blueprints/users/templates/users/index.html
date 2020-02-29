@@ -13,23 +13,32 @@
 {% for error in errors if errors|length > 0 %}
   <li class="error"><font color="red">{{error}}</font></li>
 {% endfor %}
-<div class = "edit-form container">
-<h1>Profile : {{ userinfo.name }} </h1>
-<div class = "row justify-content-center">
-<div class = "col-8"> 
-<form method = "POST" action = "{{ url_for('users.edit', id = userinfo.id) }}">
-    <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
-    <div class="form-group w-50">    
-        <label for="username">Username:</label>
-        <input type='text' value = {{userinfo.username}} name='username' class="form-control" />
 
-        <label for="email">Email:</label>
-        <input type='Email' value = {{userinfo.email}} name='email' class="form-control" />
-
-    </div>
-      <button type="submit" class="btn btn-primary">Update</button>
-</form>
-</div>
-</div>
+<h5 class ="ml-2">User Profile</h5>
+<div class = "user_profile container justify-content-center">
+  <div class = "row justify-content-center">
+      <div class="col-sm-6 col-md-4 col-lg-6 mt-4">
+        <div class="card">
+            <img class="card-img-top" src="https://picsum.photos/200/150/?random">
+            <div class="card-block p-4">
+                <h4 class="card-title text-center">{{userinfo.name}}</h4>
+                <div class="meta">
+                    <a href="#">Friends</a>
+                </div>
+                <div class="card-text mb-2">
+                    {{ userinfo.name }} lives in no where.
+                </div>
+            </div>
+         
+        </div>
+      </div>
+  </div>
 </div>
 {%endblock%}
+<!-- 
+  This is card footer can be place aboce
+<div class="card-footer">
+  <span class="float-right">Joined in 2013</span>
+  <span><i class=""></i>75 Friends</span>
+</div>
+-->
