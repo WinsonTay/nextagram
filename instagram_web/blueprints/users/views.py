@@ -65,7 +65,7 @@ def show(id):
     userinfo = User.get_by_id(id)
     return render_template('users/index.html', userinfo=userinfo)
 """
-@users_blueprint.route('/', methods=["GET"])
+@users_blueprint.route('/', methods=["GET"]
 def index():
     return render_template('/index.html')
 """
@@ -76,7 +76,7 @@ def edit(id):
     userinfo = User.get_by_id(id)
     return render_template('users/edit.html', userinfo=userinfo)
 
-@users_blueprint.route('/<id>', methods=['POST'])
+@users_blueprint.route('/<id>/upload', methods=['POST'])
 @login_required
 def update(id):
     user = User.get_by_id(id)
@@ -107,3 +107,8 @@ def update(id):
     else:
         flash("You are not authorized to do this")
         return redirect(url_for('users.show', id = id))
+
+@users_blueprint.route('/<id>', methods=['POST'])
+@login_required
+def upload(id):
+    pass

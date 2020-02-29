@@ -1,11 +1,9 @@
 body {
   margin: 0;
   padding-bottom: 15px;
+  background-color: #f0f0f2;
   position: relative;
   min-height: 100vh;
-  background-image: ( 136deg, rgb(0,0,70) 0%, rgb(28,181,224) 100%);
-  background-image: ( 136deg, rgb(0,0,70) 0%, rgb(28,181,224) 100%);
-  background-image: ( 136deg, rgb(0,0,70) 0%, rgb(28,181,224) 100%);
 }
 .edit-form form{
   margin-left:5px;

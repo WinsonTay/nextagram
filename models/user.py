@@ -10,6 +10,8 @@ class User(BaseModel, UserMixin):
     password =pw.CharField()
     username = pw.CharField(unique=True)
     email = pw.CharField(unique=True, null=False)
+    profile_image = pw.CharField(null=True)
+
     def validate(self):
      if(current_user.is_authenticated) and (current_user.password == self.password):
         pass
