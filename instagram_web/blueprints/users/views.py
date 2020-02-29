@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template , request ,redirect , flash, url_for , session , escape
 from werkzeug.security import generate_password_hash , check_password_hash
 from models import *
+from flask_login import login_user, logout_user, login_required , current_user
 from models.user import User
 from models import user as u
 users_blueprint = Blueprint('users',
@@ -59,21 +60,48 @@ def authenticate():
     return render_template('users/login.html')  
 """
 
-@users_blueprint.route('/<username>', methods=["GET"])
-def show(username):
-    pass
-
-
+@users_blueprint.route('/<id>', methods=["GET"])
+def show(id):
+    userinfo = User.get_by_id(id)
+    return render_template('users/index.html', userinfo=userinfo)
+"""
 @users_blueprint.route('/', methods=["GET"])
 def index():
-    return "USERS"
+    return render_template('/index.html')
+"""
 
-
-@users_blueprint.route('/<id>/edit', methods=['GET'])
+@users_blueprint.route('/<id>/edit', methods=['POST'])
+@login_required
 def edit(id):
-    pass
+    user = User.get_by_id(id)
+    update_msg = []
+    if current_user.id == user.id:
+        new_username = request.form.get("username")
+        new_email = request.form.get("email")
+        if new_username != user.username:
+            user.username = new_username
+            if user.save():
+                update_msg.append(f"Update new user name to {new_username}")
+            else:
+                for msg in user.errors:
+                 flash(msg)
+                return redirect(url_for("users.show",id=id))
+        if new_email != user.email:
+            user.email  = new_email
+            if user.save():
+                update_msg.append(f"Update new email to {new_email}")
+            else:
+                for msg in user.errors:
+                 flash(msg)
+                return redirect(url_for("users.show",id=id))
 
+        for success_msg in update_msg:
+            flash(success_msg)
+        return redirect(url_for('users.show', id = id))
+    else:
+        flash("You are not authorized to do this")
+        return redirect(url_for('users.show', id = id))
 
-@users_blueprint.route('/<id>', methods=['POST'])
-def update(id):
-    pass
+# @users_blueprint.route('/<id>', methods=['POST'])
+# def update(id):
+#     pass

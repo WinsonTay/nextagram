@@ -12,6 +12,7 @@ bundles = {
 
     'home_css': Bundle(
         'css/vendor/bootstrap-4.1.3.css',
+        'css/vendor/error404.css',
         'css/custom.css',
         filters='cssmin',
         output='gen/home.%(version)s.css'),

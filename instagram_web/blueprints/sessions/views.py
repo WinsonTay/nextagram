@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template , request ,redirect,session , flash, url_for
 from models.user import User
-from flask_login import login_user, logout_user
-
+from flask_login import login_user, logout_user, login_required
 
 from werkzeug.security import generate_password_hash , check_password_hash
 sessions_blueprint = Blueprint('sessions',
@@ -31,28 +30,27 @@ def login():
             # session['username'] = login_user.email
             login_user(user)
             flash(f"Welcome back ,{user.name}")
-            return render_template('/home.html')
+            # return render_template(url_for('users.show',id=user.id))
+            return redirect(url_for('users.show',id=user.id))
         else:
             flash("Incorrect Email or Password") 
     else:
         flash("Email Does Not Exist")       
           
-    return render_template('/sessions/new.html')
+    return render_template('/sessions/new.html') 
     
 
 
 @sessions_blueprint.route('/logout', methods=["GET"])
-def logout(username):
-    pass
+@login_required
+def logout():
+   logout_user()
+   flash("Successfully logged out. Goodbye!")
+   return redirect(url_for("home"))
 
 @sessions_blueprint.route('/<username>', methods=["GET"])
 def show(username):
     pass
-
-
-@sessions_blueprint.route('/new', methods=["GET"])
-def login2():
-    return "USERS"
 
 
 @sessions_blueprint.route('/<id>/edit', methods=['GET'])
