@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template , request ,redirect , flash, url_for , session , escape
+from flask import Blueprint, render_template , request ,redirect , flash, url_for , session , escape , Flask
 from werkzeug.security import generate_password_hash , check_password_hash
+from werkzeug.utils import secure_filename
+from instagram_web.util.s3_uploader import upload_file_to_s3
 from models import *
 from flask_login import login_user, logout_user, login_required , current_user
 from models.user import User
-from models import user as u
+# from models import user as u
 users_blueprint = Blueprint('users',
                             __name__,
                             template_folder='templates')
@@ -17,6 +19,7 @@ def new():
 def login():
     return render_template('users/login.html')    
 """
+
 
 @users_blueprint.route('/', methods=['POST'])
 def create():
@@ -76,7 +79,7 @@ def edit(id):
     userinfo = User.get_by_id(id)
     return render_template('users/edit.html', userinfo=userinfo)
 
-@users_blueprint.route('/<id>/upload', methods=['POST'])
+@users_blueprint.route('/<id>/update', methods=['POST'])
 @login_required
 def update(id):
     user = User.get_by_id(id)
@@ -108,7 +111,45 @@ def update(id):
         flash("You are not authorized to do this")
         return redirect(url_for('users.show', id = id))
 
-@users_blueprint.route('/<id>', methods=['POST'])
+@users_blueprint.route('/<id>/upload_file', methods=['POST'])
 @login_required
-def upload(id):
-    pass
+def upload_file(id):
+    # user_file = request.form.get("user_file")
+    # breakpoint()
+    editing_user = User.get_by_id(id)
+    #check Authentication
+    if current_user.id != editing_user.id:
+        flash("You are not authorized to do this")
+        return redirect(url_for('users.show',id=current_user.id))
+    if "user_file" not in request.files:
+        flash ("No File Found")
+        return redirect(url_for('users.edit', id = id))
+
+    file = request.files["user_file"]
+   
+
+    if file.filename == "":
+        flash("Please Select a file")
+        return redirect(url_for('users.edit', id = id))
+    
+    file.filename = secure_filename(file.filename)
+
+    if not upload_file_to_s3(file):
+        flash("Opps, Something wrong with the Uploading")
+        return redirect(url_for('users.edit', id = id))
+
+    #else succeded upload file to AMAZON S3
+    editing_user.profile_image = file.filename
+    editing_user.save()
+    flash("Uploaded file succeed")
+    return redirect(url_for('users.edit', id = id))
+
+    """
+    if file and allowed_file(file.filename):
+        file.filename = secure_filename(file.filename)
+        output   	  = upload_file_to_s3(file, app.config["S3_BUCKET"])
+
+        return redirect(url_for('users.edit', id = id))
+    """
+
+    return redirect(url_for('users.edit', id = id))

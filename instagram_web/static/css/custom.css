@@ -1,10 +1,25 @@
 body {
   margin: 0;
+  height:100%;
   padding-bottom: 15px;
   background-color: #f0f0f2;
   /* background-image: -webkit-linear-gradient( 136deg, rgb(0,0,70) 0%, rgb(28,181,224) 100%); */
   position: relative;
   min-height: 100vh;
+}
+.navlogo{
+  font-family: 'Fredoka One', Calibri;
+}
+.bg-image{
+  background-image: url("../klcc.jpg"); 
+  /* filter: blur(8px);
+  -webkit-filter: blur(8px); */
+
+  /* Full height */
+  width:50%;
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .edit-form form{
   margin-left:5px;

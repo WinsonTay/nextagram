@@ -12,7 +12,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # login_manager.login_view = "users.show,id=3"
-login_manager.login_message ="What The Hell"
+# login_manager.login_message ="What The Hell"
 app.register_blueprint(users_blueprint, url_prefix="/users")
 app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
 @app.errorhandler(500)

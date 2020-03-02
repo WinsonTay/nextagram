@@ -1,9 +1,6 @@
 import os
 # AWS S3 parameter
-S3_BUCKET = os.environ.get("S3_BUCKET_NAME")
-S3_KEY = os.environ.get("S3_ACCESS_KEY")
-S3_SECRET = os.environ.get("S3_SECRET_ACCESS_KEY")
-S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+# S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(Config.AWS_BUCKET_NAME)
 
 SECRET_KEY = os.urandom(32)
 DEBUG = True
@@ -15,6 +12,9 @@ class Config(object):
     CSRF_ENABLED = True
     SECRET_KEY = os.environ.get(
         'SECRET_KEY') or os.urandom(32)
+    AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
+    AWS_SECRET_KEY = os.getenv('AWS_SECRET_KEY')
+    AWS_BUCKET_NAME= os.getenv('AWS_BUCKET_NAME')
 
 
 class ProductionConfig(Config):

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../static/css/custom.css"> -->
     {% assets "home_css" %}
     <link rel="stylesheet" href="{{ ASSET_URL }}">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
     {% endassets %}
   
 
@@ -29,15 +30,23 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-info">
-      <a class="navbar-brand" href="#">NEXTAGRAM</a>
+      <a class="navbar-brand navlogo" href="#">NEXTAGRAM</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="{{ url_for('sessions.new') }}">Login<span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link active" href="{{ url_for('users.new') }}">Sign Up</a>
-          <a class="nav-item nav-link" href="{{ url_for('sessions.logout') }}">Log Out</a>
+          {% if current_user.name %}
+          <a class="nav-item nav-link" href="{{ url_for('users.show',id = current_user.id) }}">PROFILE</a>
+          <a class="nav-item nav-link" href="{{ url_for('users.edit',id = current_user.id) }}">EDIT</a>
+          <a class="nav-item nav-link mr-2" href="{{ url_for('users.edit',id = current_user.id) }}">POST A STORY</a>
+          <a class="nav-item nav-link" href="{{ url_for('sessions.logout') }}">LOG OUT</a>
+          
+          {% else %}
+          <a class="nav-item nav-link" href="{{ url_for('sessions.new') }}">LOGIN<span class="sr-only">(current)</span></a>
+          {%endif%}
+          
+          <!-- <a class="nav-item nav-link active" href="{{ url_for('users.new') }}">Sign Up</a> -->
           <!-- <a class="nav-item nav-link disabled" href="#">Disabled</a> -->
         </div>
       </div>

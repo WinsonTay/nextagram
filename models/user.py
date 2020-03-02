@@ -1,6 +1,7 @@
 from models.base_model import BaseModel
 from werkzeug.security import generate_password_hash ,check_password_hash
 from flask_login import UserMixin,current_user
+from playhouse.hybrid import hybrid_property
 
 import peewee as pw
 import re
@@ -12,6 +13,14 @@ class User(BaseModel, UserMixin):
     email = pw.CharField(unique=True, null=False)
     profile_image = pw.CharField(null=True)
 
+    @hybrid_property
+    def profile_image_url(self):
+        #if user had not uploaded an image
+        if (self.profile_image == None): 
+            return "https://nextagram-winson.s3.amazonaws.com/avatar/profile_img1.png"
+        else:
+            return f"https://nextagram-winson.s3.amazonaws.com/{self.profile_image}"
+    
     def validate(self):
      if(current_user.is_authenticated) and (current_user.password == self.password):
         pass
@@ -59,6 +68,17 @@ class User(BaseModel, UserMixin):
 def load_user(User.id):
   return User.get(User.id)
 """
+class Story(BaseModel, UserMixin):
+    user = pw.ForeignKeyField(User, backref='stories')
+    story_image = pw.CharField(null=True)
+    msg = pw.TextField(null=True)
+     
+    @hybrid_property
+    def story_image_url(self,user):
+        if (self.profile_image == None): 
+            return "https://nextagram-winson.s3.amazonaws.com/avatar/profile_img1.png"
+        else:
+            return f"https://nextagram-winson.s3.amazonaws.com/{self.profile_image}"
 
 def pwd_formatcheck(pw):
     patterns = [ r"[A-Z]{1}", r"[a-z]{1}" , r"\W"]

@@ -9,21 +9,25 @@
 </ul>
 {%endif%}
 {% endwith %}
-<div class = "container justify-content-center">
-<h1> Login </h1>
-<form method = "POST" action = "{{ url_for('sessions.login') }}">
-    <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
-    <div class="form-group w-50">    
-        <label for="email">Email:</label>
-        <input type='text' name='email' class="form-control" />
-
-        <label for="password">Password:</label>
-        <input type='password' name='password' class="form-control" />
-
+<div class = "container">
+    <div class = "row">
+        <div class = "col-6 h-100">
+             
+        </div>
+        <div class = "col-6 justifiy-content-center">
+            <form method = "POST" action = "{{ url_for('sessions.login') }}">
+                <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
+                <div class="form-group">    
+                    <label for="email">Email:</label>
+                    <input type='text' name='email' class="form-control" /> 
+                    <label for="password">Password:</label>
+                    <input type='password' name='password' class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">SIGN IN</button>
+            </form>
+            <p>Dont Have an Account ?</p>
+            <a class="text-light btn btn-primary"href="{{ url_for('users.new') }}">SIGN UP FOR NEXTAGRAM</a>
+        </div>
     </div>
-      <button type="submit" class="btn btn-primary">SIGN IN</button>
-</form>
-
-
 </div>
 {%endblock%}
