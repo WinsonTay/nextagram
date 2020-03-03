@@ -38,6 +38,12 @@
       <div class="card mr-2 p-2">
         <img class="card-img-top" src="{{ story.story_image_url }}" alt="Card image cap">
         <div class="card-body">
+          <p class="card-title"><a href="{{ url_for('donation.new', story_id = story.id) }} "><img src="{{ url_for('static', filename='images/money.svg') }}"></a></p>
+          <p class="card-text"><small class ="text-muted">
+            {%if story.donations|sum(attribute='amount') > 0 %}
+            Donation: RM{{ (story.donations|sum(attribute='amount'))|round }}
+            {%endif%}</small>
+          </p>
           <p class="card-text">{{ story.msg }}</p>
           <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>

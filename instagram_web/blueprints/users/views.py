@@ -2,7 +2,7 @@ from flask import Blueprint, render_template , request ,redirect , flash, url_fo
 from werkzeug.security import generate_password_hash , check_password_hash
 from werkzeug.utils import secure_filename
 from instagram_web.util.s3_uploader import upload_file_to_s3
-from models import *
+# from models import *
 from flask_login import login_user, logout_user, login_required , current_user
 from models.user import User, Story
 # from models import user as u
@@ -33,35 +33,6 @@ def create():
         return redirect(url_for('users.new'))
     else:
         return render_template('users/new.html', errors = v.errors)
-"""
-# authenticate users
-@users_blueprint.route('/authenticate', methods=['GET', 'POST'])
-def authenticate():
-    email_to_check = request.form.get("email")
-    password_to_check = request.form.get("password")
-    # find = User.get(User.email == email_to_check)
-    test = User.get_or_none(User.email == email_to_check)
-    #Check user name exist
-   
-    if test:
-        login_user = User.get(User.email == email_to_check)
-        hashed_password = login_user.password
-        #Check password whether correct
-        result = check_password_hash(hashed_password,password_to_check)
-        if result:
-            # breakpoint()
-            session['username'] = login_user.email
-            session_username = escape(session['username'])
-            flash(f"Welcome back ,{login_user.name}")
-            flash(f"Current sessions , {session_username}")
-            return render_template('/home.html')
-        else:
-            flash("Incorrect Email or Password") 
-    else:
-        flash("Email Does Not Exist")    
-        
-    return render_template('users/login.html')  
-"""
 
 @users_blueprint.route('/<id>', methods=["GET"])
 def show(id):

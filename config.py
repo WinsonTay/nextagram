@@ -15,6 +15,9 @@ class Config(object):
     AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
     AWS_SECRET_KEY = os.getenv('AWS_SECRET_KEY')
     AWS_BUCKET_NAME= os.getenv('AWS_BUCKET_NAME')
+    BT_MERCHANT_ID = os.getenv('BT_MERCHANT_ID')
+    BT_PUBLIC_KEY = os.getenv('BT_PUBLIC_KEY')
+    BT_PRIVATE_KEY= os.getenv('BT_PRIVATE_KEY')
 
 
 class ProductionConfig(Config):

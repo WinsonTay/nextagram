@@ -6,4 +6,8 @@ class Donation(BaseModel):
     amount = pw.DecimalField()
     image = pw.ForeignKeyField(Story,backref="donations")
     user = pw.ForeignKeyField(User, backref="donations")
+
+    def validate(self):
+        pass
+    
     

@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template , request ,redirect,session , flash, url_for
 from models.user import User
 from flask_login import login_user, logout_user, login_required
-
 from werkzeug.security import generate_password_hash , check_password_hash
 sessions_blueprint = Blueprint('sessions',
                             __name__,
