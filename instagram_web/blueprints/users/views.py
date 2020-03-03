@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from instagram_web.util.s3_uploader import upload_file_to_s3
 from models import *
 from flask_login import login_user, logout_user, login_required , current_user
-from models.user import User
+from models.user import User, Story
 # from models import user as u
 users_blueprint = Blueprint('users',
                             __name__,
@@ -124,7 +124,6 @@ def upload_file(id):
     if "user_file" not in request.files:
         flash ("No File Found")
         return redirect(url_for('users.edit', id = id))
-
     file = request.files["user_file"]
    
 
@@ -142,14 +141,46 @@ def upload_file(id):
     editing_user.profile_image = file.filename
     editing_user.save()
     flash("Uploaded file succeed")
-    return redirect(url_for('users.edit', id = id))
-
-    """
-    if file and allowed_file(file.filename):
-        file.filename = secure_filename(file.filename)
-        output   	  = upload_file_to_s3(file, app.config["S3_BUCKET"])
-
-        return redirect(url_for('users.edit', id = id))
-    """
+    # return redirect(url_for('users.edit', id = id))
 
     return redirect(url_for('users.edit', id = id))
+
+@users_blueprint.route('/<id>/story', methods=['GET','POST'])
+@login_required
+def story(id):
+    # userstory = User.get_by_id(id)
+    return render_template('/users/story.html',userid=id)
+
+@users_blueprint.route('<id>/story_post', methods=['POST'])
+@login_required
+def story_post(id):
+    upload_user = User.get_by_id(id)
+    # story_file = request.form.get('story_file')
+    message = request.form.get('message')
+    if current_user.id != upload_user.id:
+        flash("You are not Authorized to Do this")
+        return render_template('/users/story.html',id = current_user.id)
+    
+    if 'story_file' not in request.files:
+        flash ("No File Found")
+        return redirect(url_for('users.story', id = current_user.id))
+
+    file = request.files['story_file']
+    if file.filename == "":
+        flash("Please Select a file")
+        return redirect(url_for('users.story', id = current_user.id))
+    
+    file.filename = secure_filename(file.filename)
+
+    if not upload_file_to_s3(file):
+        flash("Opps, Something wrong with the Uploading")
+        return redirect(url_for('users.story', id = current_user.id))
+    
+    new_story = Story(msg=message,story_image = file.filename, user=upload_user)
+    new_story.save()
+    flash("You Just Posted a new Story")
+    return redirect(url_for('users.show', id = id))
+
+
+
+    

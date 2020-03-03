@@ -39,7 +39,7 @@
           {% if current_user.name %}
           <a class="nav-item nav-link" href="{{ url_for('users.show',id = current_user.id) }}">PROFILE</a>
           <a class="nav-item nav-link" href="{{ url_for('users.edit',id = current_user.id) }}">EDIT</a>
-          <a class="nav-item nav-link mr-2" href="{{ url_for('users.edit',id = current_user.id) }}">POST A STORY</a>
+          <a class="nav-item nav-link mr-4" href="{{ url_for('users.story',id = current_user.id) }}">POST A STORY</a>
           <a class="nav-item nav-link" href="{{ url_for('sessions.logout') }}">LOG OUT</a>
           
           {% else %}

@@ -1,33 +1,49 @@
 {% extends "_layout.html" %}
 {% block content %}
+<!-- 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-<ul class=flashes>
+<ul class="flashes alert alert-success">
 {% for message in messages %}
-    <li>{{ message }}</li>
+<li>{{ message }}</li>
 {% endfor %}
 </ul>
 {%endif%}
-{% endwith %}
-<div class = "container">
-    <div class = "row">
-        <div class = "col-6 h-100">
-             
-        </div>
-        <div class = "col-6 justifiy-content-center">
-            <form method = "POST" action = "{{ url_for('sessions.login') }}">
-                <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
-                <div class="form-group">    
-                    <label for="email">Email:</label>
-                    <input type='text' name='email' class="form-control" /> 
-                    <label for="password">Password:</label>
-                    <input type='password' name='password' class="form-control" />
+{% endwith %}   -->
+<!-- {{ url_for('static',filename='city.jpg') }} -->
+<!-- <img class ="blur" src="https://giphy.com/gifs/fMYhlRdVtRnsk/html5">    -->
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Economica&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<img class ="blur" src=" {{ url_for('static',filename='city2.jpg') }}">   
+    <div class = "container h-100">
+        <div class = "row justify-content-center align-items-center">
+            <div class ='col-4 login-logo text-center text-light'>
+                
+                THE NEW<br>NEXTAGRAM <br>
+                <img src="{{url_for('static',filename='camera2.png' )}}">
+            </div>
+            <div class = "col-4 text-center" style = "margin-top:25vh">
+                <div class="card card-block" style ="background-color: rgba(211, 211, 211, 0.8);">
+                    <div class="card-body"> 
+                            <form method = "POST" action = "{{ url_for('sessions.login') }}">
+                                <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
+                                    <div class="form-group">    
+                                        <label for="email">Email:</label>
+                                        <input type='text' name='email' class="form-control" /> 
+                                        <label for="password">Password:</label>
+                                        <input type='password' name='password' class="form-control" />
+                                    </div>
+                                    <button type="submit" class="w-100 btn btn-primary">SIGN IN</button>
+                            </form>
+                            <p>Dont Have an Account ?</p>
+                            <a class="w-100 text-light btn btn-primary"href="{{ url_for('users.new') }}">SIGN UP FOR NEXTAGRAM</a>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">SIGN IN</button>
-            </form>
-            <p>Dont Have an Account ?</p>
-            <a class="text-light btn btn-primary"href="{{ url_for('users.new') }}">SIGN UP FOR NEXTAGRAM</a>
+            </div>
         </div>
     </div>
-</div>
+</body>
 {%endblock%}

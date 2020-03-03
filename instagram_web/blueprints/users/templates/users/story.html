@@ -1,0 +1,39 @@
+{% extends "_layout.html" %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="flashes bg-danger">
+  {% for message in messages %}
+    <li>{{ message }}</li>
+  {% endfor %}
+  </ul>
+{%endif%}
+{% endwith %}
+<h1>{{ errors }} </h1>
+{% for error in errors if errors|length > 0 %}
+  <li class="error"><font color="red">{{error}}</font></li>
+{% endfor %}
+<div class = "container">
+  <div class = "row h-100 justify-content-center" style="min-height:40vh;">
+    <div class = "col-6 border border-primary justify-content-center">
+       Upload Your Story Image..
+    </div>
+  </div>
+  <div class = "row justify-content-center">
+      <div class = "col-6">                                    
+        <form method = "POST" enctype="multipart/form-data" action="{{ url_for('users.story_post',id=userid) }}">
+          <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
+          <div class="form-group w-100">    
+              <label for="story_file">Image:</label>
+              <input type='file' name='story_file' class="form-control" />
+              <!-- <button type="submit" formmethod="POST" formaction="{{ url_for('users.upload_file', id = current_user.id) }}" formenctype="multipart/form-data" class="w-100 text-align-center btn btn-primary mt-2">Upload</button><br> -->
+              <label for="message"></label>
+              <textarea rows="3" cols="5" name='message' placeholder="Whats on your mind.." class="form-control"></textarea>
+              <!-- <input type ='text' name = 'message' class="form-control"/> -->
+              <button type="submit" class="w-100 btn btn-primary mt-2">POST</button>
+          </div>    
+        </form>
+      </div>
+  </div>
+</div>
+{%endblock%}

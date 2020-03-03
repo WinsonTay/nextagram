@@ -72,13 +72,16 @@ class Story(BaseModel, UserMixin):
     user = pw.ForeignKeyField(User, backref='stories')
     story_image = pw.CharField(null=True)
     msg = pw.TextField(null=True)
-     
+    
+    def validate(self):
+        pass
+
     @hybrid_property
-    def story_image_url(self,user):
-        if (self.profile_image == None): 
-            return "https://nextagram-winson.s3.amazonaws.com/avatar/profile_img1.png"
-        else:
-            return f"https://nextagram-winson.s3.amazonaws.com/{self.profile_image}"
+    def story_image_url(self):
+        return f"https://nextagram-winson.s3.amazonaws.com/{self.story_image}"
+    
+    # def storycount(self):
+
 
 def pwd_formatcheck(pw):
     patterns = [ r"[A-Z]{1}", r"[a-z]{1}" , r"\W"]

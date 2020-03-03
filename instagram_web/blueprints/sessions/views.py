@@ -29,7 +29,7 @@ def login():
             # breakpoint()
             # session['username'] = login_user.email
             login_user(user)
-            flash(f"Welcome back ,{user.name}")
+            flash(f"Welcome back , {user.name}")
             # return render_template(url_for('users.show',id=user.id))
             return redirect(url_for('users.show',id=user.id))
         else:

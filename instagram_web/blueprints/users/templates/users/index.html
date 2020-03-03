@@ -2,7 +2,7 @@
 {% block content %}
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-<ul class="flashes bg-danger">
+<ul class="flashes alert alert-success">
   {% for message in messages %}
     <li>{{ message }}</li>
   {% endfor %}
@@ -17,9 +17,9 @@
 <!-- <a class ="ml-4 text-light align-baseline btn btn-primary" href="{{ url_for('users.edit',id=userinfo.id) }}" style="width:300px">EDIT PROFILE</a> -->
 <div class = "user_profile container justify-content-center">
   <div class = "row justify-content-center">
-      <div class="col-sm-6 col-md-4 col-lg-6 mt-2">
+      <div class="col-sm-6 col-md-4 col-lg-4">
         <div class="card shadow p-3 mb-5 bg-white rounde">
-            <img class="card-img-top" src="{{ userinfo.profile_image_url }}">
+            <img class="card-img-top rounded-circle" src="{{ userinfo.profile_image_url }}">
             <div class="card-block p-4">
                 <h4 class="card-title text-center">{{userinfo.name}}</h4>
                 <div class="meta">
@@ -29,10 +29,23 @@
                     {{ userinfo.name }} lives in no where.
                 </div>
             </div>
-         
         </div>
       </div>
+  </div><hr>
+  <div class = "row justify-content-start">
+    <div class="card-group">
+      {% for story in userinfo.stories if userinfo.stories|length > 0 %}
+      <div class="card mr-2 p-2">
+        <img class="card-img-top" src="{{ story.story_image_url }}" alt="Card image cap">
+        <div class="card-body">
+          <p class="card-text">{{ story.msg }}</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+      {%endfor%}  
+    </div>
   </div>
+    
 </div>
 {%endblock%}
 <!-- 
