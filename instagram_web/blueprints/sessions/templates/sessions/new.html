@@ -1,6 +1,5 @@
-{% extends "_layout.html" %}
 {% block content %}
-<!-- 
+
 {% with messages = get_flashed_messages() %}
 {% if messages %}
 <ul class="flashes alert alert-success">
@@ -9,12 +8,19 @@
 {% endfor %}
 </ul>
 {%endif%}
-{% endwith %}   -->
-<!-- {{ url_for('static',filename='city.jpg') }} -->
-<!-- <img class ="blur" src="https://giphy.com/gifs/fMYhlRdVtRnsk/html5">    -->
+{% endwith %}  
+
 <head>
     <link href="https://fonts.googleapis.com/css?family=Economica&display=swap" rel="stylesheet">
+    {% assets "home_css" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
+    {% endassets %}
+  
 
+    {% assets "home_js" %}
+      <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 </head>
 <body>
 <img class ="blur" src=" {{ url_for('static',filename='images/city2.jpg') }}">   

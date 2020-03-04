@@ -37,6 +37,7 @@ def create():
 @users_blueprint.route('/<id>', methods=["GET"])
 def show(id):
     userinfo = User.get_by_id(id)
+    
     return render_template('users/index.html', userinfo=userinfo)
 """
 @users_blueprint.route('/', methods=["GET"]

@@ -4,6 +4,7 @@ from flask_login import login_user, logout_user, login_required , current_user
 from models.user import User, Story
 from models.donation import Donation
 from instagram_web.util.bthelper import gateway
+from instagram_web.util.mailgun import send_simple_message
 
 donation_blueprint = Blueprint('donation',
                             __name__,
@@ -56,11 +57,11 @@ def create(story_id):
         donate = Donation(amount=amount , image_id = story_id , user_id = current_user.id)
         if donate.save():
          flash(f"You just donate {amount}")
+         send_simple_message()
          return redirect(url_for('users.show',id = current_user.id))
         else:
          flash('Records Fail')
          return redirect(url_for('users.show',id = current_user.id))
-    
-    
 
-  
+    
+    
