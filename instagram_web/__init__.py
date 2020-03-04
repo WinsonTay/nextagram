@@ -7,10 +7,14 @@ from flask_assets import Environment, Bundle
 from .util.assets import bundles
 from flask_login import login_user , LoginManager , current_user
 from models.user import User
+from instagram_web.util.google_oauth import oauth
 assets = Environment(app)
 assets.register(bundles)
+#Login manager init
 login_manager = LoginManager()
 login_manager.init_app(app)
+#Google authorization init
+
 
 # login_manager.login_view = "users.show,id=3"
 # login_manager.login_message ="What The Hell"

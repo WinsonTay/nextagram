@@ -1,0 +1,17 @@
+{% extends "_layout.html" %}
+{% block content %}
+<div class = "feed mx-5">
+    <h4>News Feed</h4>
+    <div class="card mb-3">
+        <div class="card-header profile_pic">
+            <img class="profile_pic" src="{{ users[0].profile_image_url }}">
+        </div>
+        <img src="{{ users[0].stories[0].story_image_url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+      </div>
+</div>
+{%endblock%}

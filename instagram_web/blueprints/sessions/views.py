@@ -47,14 +47,8 @@ def logout():
    flash("Successfully logged out. Goodbye!")
    return redirect(url_for("home"))
 
-@sessions_blueprint.route('/<username>', methods=["GET"])
-def show(username):
-    pass
+@sessions_blueprint.route('/authorize/google', methods=['GET'])
 
-
-@sessions_blueprint.route('/<id>/edit', methods=['GET'])
-def edit(id):
-    pass
 
 
 @sessions_blueprint.route('/<id>', methods=['POST'])

@@ -18,6 +18,8 @@ class Config(object):
     BT_MERCHANT_ID = os.getenv('BT_MERCHANT_ID')
     BT_PUBLIC_KEY = os.getenv('BT_PUBLIC_KEY')
     BT_PRIVATE_KEY= os.getenv('BT_PRIVATE_KEY')
+    OAUTH_CLIENT_ID = os.getenv('OAUTH_CLIENT_ID')
+    OAUTH_CLIENT_SECRET = os.getenv("OAUTH_CLIENT_SECRET")
 
 
 class ProductionConfig(Config):

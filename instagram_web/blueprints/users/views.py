@@ -51,6 +51,12 @@ def edit(id):
     userinfo = User.get_by_id(id)
     return render_template('users/edit.html', userinfo=userinfo)
 
+@users_blueprint.route('/feed', methods=["GET"])
+@login_required
+def feed():
+    users = User.select().where(id != current_user.id)
+    return render_template('users/newsfeed.html',users = users)
+
 @users_blueprint.route('/<id>/update', methods=['POST'])
 @login_required
 def update(id):

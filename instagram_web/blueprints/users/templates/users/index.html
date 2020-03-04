@@ -35,7 +35,7 @@
   <div class = "row justify-content-start">
     <div class="card-group">
       {% for story in userinfo.stories if userinfo.stories|length > 0 %}
-      <div class="card mr-2 p-2">
+      <div class="card text-light mr-2 p-2">
         <img class="card-img-top" src="{{ story.story_image_url }}" alt="Card image cap">
         <div class="card-body">
           <p class="card-title"><a href="{{ url_for('donation.new', story_id = story.id) }} "><img src="{{ url_for('static', filename='images/money.svg') }}"></a></p>

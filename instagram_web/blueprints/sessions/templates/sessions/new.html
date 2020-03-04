@@ -24,14 +24,14 @@
 </head>
 <body>
 <img class ="blur" src=" {{ url_for('static',filename='images/city2.jpg') }}">   
-    <div class = "container h-100">
+    <div class = "container">
         <div class = "row justify-content-center align-items-center">
             <div class ='col-4 login-logo text-center text-light'>
                 
                 THE NEW<br>NEXTAGRAM <br>
                 <img src="{{url_for('static',filename='images/camera2.png' )}}">
             </div>
-            <div class = "col-4 text-center" style = "margin-top:25vh">
+            <div class = "col-4 text-center" style = "margin-top:10vh">
                 <div class="card card-block" style ="background-color: rgba(211, 211, 211, 0.8);">
                     <div class="card-body"> 
                             <form method = "POST" action = "{{ url_for('sessions.login') }}">
@@ -43,9 +43,12 @@
                                         <input type='password' name='password' class="form-control" />
                                     </div>
                                     <button type="submit" class="w-100 btn btn-primary">SIGN IN</button>
-                            </form>
+                            </form><hr>
                             <p>Dont Have an Account ?</p>
                             <a class="w-100 text-light btn btn-primary"href="{{ url_for('users.new') }}">SIGN UP FOR NEXTAGRAM</a>
+                            <p>or</p>
+                            <a class="w-100 text-light btn btn-primary"href="{{ url_for('users.new') }}">LOG IN WITH GOOGLE</a>
+
                     </div>
                 </div>
             </div>
