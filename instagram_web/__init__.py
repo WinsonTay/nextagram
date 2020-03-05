@@ -1,8 +1,10 @@
 from app import app
-from flask import render_template, flash
+from flask import render_template, flash , url_for ,redirect
 from instagram_web.blueprints.users.views import users_blueprint
 from instagram_web.blueprints.sessions.views import sessions_blueprint
 from instagram_web.blueprints.donation.views import donation_blueprint
+from instagram_web.blueprints.follower_following.views import follower_blueprint
+
 from flask_assets import Environment, Bundle
 from .util.assets import bundles
 from flask_login import login_user , LoginManager , current_user
@@ -22,6 +24,7 @@ oauth.init_app(app)
 app.register_blueprint(users_blueprint, url_prefix="/users")
 app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
 app.register_blueprint(donation_blueprint, url_prefix="/donation")
+app.register_blueprint(follower_blueprint, url_prefix="/following")
 
 @app.errorhandler(500)
 def internal_server_error(e):
@@ -37,9 +40,10 @@ def not_authorized(e):
 
 @app.route("/")
 def home():
-    return render_template('sessions/new.html')
-    
-    # return render_template('home.html')
+    if not current_user.is_authenticated:
+        return render_template('sessions/new.html')
+    else:
+        return redirect(url_for('users.show',id = current_user.id))
 
 @login_manager.user_loader
 def load_user(user_id):

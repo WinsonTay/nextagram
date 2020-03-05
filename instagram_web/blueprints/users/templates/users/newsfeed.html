@@ -4,6 +4,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 {%endblock%}
 {% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="flashes alert alert-success">
+  {% for message in messages %}
+    <li>{{ message }}</li>
+  {% endfor %}
+  </ul>
+{%endif%}
+{% endwith %}
 <div class = "feed">
     <h4>News Feed</h4>
     {%for user in users%}
@@ -12,8 +21,23 @@
       <div class="card">
           <div class="card-body profile_pic">
               <img class="mr-1" src="{{ user.profile_image_url }}"> {{ user.name }}
-              <!-- <div class="card-body"> -->
-            <p class="card-text ml-5 mt-1">{{ story.msg }}</p>
+              {%if user.id != current_user.id %}
+                <span>
+                <form class ="ml-5" method ="POST", action ="{{ url_for('follower_following.create', idol_id = user.id) }}">                    
+                    <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
+                    {% if current_user.is_following(user) %}
+                    <button formmethod="POST" formaction="{{ url_for('follower_following.delete',idol_id = user.id) }}" type="submit" class="ml-2 w-10 h-10 btn btn-primary mt-2">
+                        UNFOLLOW 
+                    </button>
+                    {%else%}
+                    <button type="submit" class="ml-2 w-10 h-10 btn btn-primary mt-2" >
+                        FOLLOW
+                    </button>
+                    {%endif%} 
+                </form>
+                </span>
+              {%endif%}
+              <p class="card-text ml-5 mt-1">{{ story.msg }}</p>
           </div>
             <img class="card-img-center story_pic" src="{{ story.story_image_url }}" >
             <p class="card-text ml-5"><small class="text-muted">Last updated 3 mins ago</small><i class="ml-1 far fa-heart fa-lg"></i></p>

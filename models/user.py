@@ -1,7 +1,8 @@
 from models.base_model import BaseModel
+# from models.follower_following import FollowerFollowing
 from werkzeug.security import generate_password_hash ,check_password_hash
 from flask_login import UserMixin,current_user
-from playhouse.hybrid import hybrid_property
+from playhouse.hybrid import hybrid_property, hybrid_method
 
 import peewee as pw
 import re
@@ -20,7 +21,25 @@ class User(BaseModel, UserMixin):
             return "https://nextagram-winson.s3.amazonaws.com/avatar/profile_img1.png"
         else:
             return f"https://nextagram-winson.s3.amazonaws.com/{self.profile_image}"
-    
+    @hybrid_method
+    def is_following(self,user):
+        from models.follower_following import FollowerFollowing
+        check_following = FollowerFollowing.get_or_none((FollowerFollowing.fan_id == current_user.id) & (FollowerFollowing.idol_id == user.id))
+        if check_following == None:
+            return False
+        else:
+            return True
+
+   
+    """
+    @hybrid_method
+    def is_following(self,user):
+        check_following =FollowerFollowing.get_or_none(FollowerFollowing.idol_id == user.id and FollowerFollowing.fan_id == self.id)
+        if check_following == None:
+            return False
+        else:
+            return True 
+    """
     def validate(self):
      if(current_user.is_authenticated) and (current_user.password == self.password):
         pass
@@ -63,11 +82,7 @@ class User(BaseModel, UserMixin):
         return False
     def get_id(self):
         return self.id  
-"""
-@login_manager.user_loader
-def load_user(User.id):
-  return User.get(User.id)
-"""
+
 class Story(BaseModel, UserMixin):
     user = pw.ForeignKeyField(User, backref='stories')
     story_image = pw.CharField(null=True)
@@ -80,7 +95,6 @@ class Story(BaseModel, UserMixin):
     def story_image_url(self):
         return f"https://nextagram-winson.s3.amazonaws.com/{self.story_image}"
     
-    # def storycount(self):
 
 
 def pwd_formatcheck(pw):

@@ -32,7 +32,7 @@
                 <img src="{{url_for('static',filename='images/camera2.png' )}}">
             </div>
             <div class = "col-4 text-center" style = "margin-top:10vh">
-                <div class="card card-block" style ="background-color: rgba(211, 211, 211, 0.8);">
+                <div class="card card-block" style ="background-color: rgba(56, 56, 55, 0.5); color:whitesmoke;">
                     <div class="card-body"> 
                             <form method = "POST" action = "{{ url_for('sessions.login') }}">
                                 <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
