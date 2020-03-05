@@ -14,11 +14,6 @@ users_blueprint = Blueprint('users',
 @users_blueprint.route('/new', methods=['GET'])
 def new():
     return render_template('users/new.html')
-"""
-@users_blueprint.route('/login', methods=['GET'])
-def login():
-    return render_template('users/login.html')    
-"""
 
 
 @users_blueprint.route('/', methods=['POST'])
@@ -54,7 +49,7 @@ def edit(id):
 @users_blueprint.route('/feed', methods=["GET"])
 @login_required
 def feed():
-    users = User.select().where(id != current_user.id)
+    users = User.select()
     return render_template('users/newsfeed.html',users = users)
 
 @users_blueprint.route('/<id>/update', methods=['POST'])

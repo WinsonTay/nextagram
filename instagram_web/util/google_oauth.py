@@ -1,4 +1,5 @@
-from authlib.flask.client import OAuth
+# from authlib.flask.client import OAuth
+from authlib.integrations.flask_client import OAuth
 from config import Config
 import config
 import os
@@ -9,7 +10,7 @@ else:
     config = eval("config.DevelopmentConfig")
 
 oauth = OAuth()
-oauth.register('google',
+oauth.register('google',    
                 client_id = Config.OAUTH_CLIENT_ID,
                 client_secret = Config.OAUTH_CLIENT_SECRET,
                 access_token_url='https://accounts.google.com/o/oauth2/token',

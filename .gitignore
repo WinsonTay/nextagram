@@ -5,3 +5,5 @@
 *.csv
 instagram_web/static/.webassets-cache
 instagram_web/static/gen
+instagram_web/static/images
+instagram_web/static/css/vender/svgs

@@ -1,17 +1,25 @@
 {% extends "_layout.html" %}
+{%block header%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+{%endblock%}
 {% block content %}
-<div class = "feed mx-5">
+<div class = "feed">
     <h4>News Feed</h4>
-    <div class="card mb-3">
-        <div class="card-header profile_pic">
-            <img class="profile_pic" src="{{ users[0].profile_image_url }}">
-        </div>
-        <img src="{{ users[0].stories[0].story_image_url }}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
+    {%for user in users%}
+      {%if user.stories|length > 0%}
+      {%for story in user.stories%}
+      <div class="card">
+          <div class="card-body profile_pic">
+              <img class="mr-1" src="{{ user.profile_image_url }}"> {{ user.name }}
+              <!-- <div class="card-body"> -->
+            <p class="card-text ml-5 mt-1">{{ story.msg }}</p>
+          </div>
+            <img class="card-img-center story_pic" src="{{ story.story_image_url }}" >
+            <p class="card-text ml-5"><small class="text-muted">Last updated 3 mins ago</small><i class="ml-1 far fa-heart fa-lg"></i></p>
       </div>
+      {%endfor%}
+      {%endif%}
+    {%endfor%}
 </div>
 {%endblock%}
