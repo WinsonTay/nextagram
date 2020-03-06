@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 
 users_api_blueprint = Blueprint('users_api',
                              __name__,
@@ -7,3 +7,4 @@ users_api_blueprint = Blueprint('users_api',
 @users_api_blueprint.route('/', methods=['GET'])
 def index():
     return "USERS API"
+    

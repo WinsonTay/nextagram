@@ -24,7 +24,7 @@
   </div>
   <div class = "row justify-content-center">
       <div class = "col-6"> 
-        <form method = "POST" action = "{{ url_for('users.update', id = userinfo.id) }}">
+        <form class="text-light" method = "POST" action = "{{ url_for('users.update', id = userinfo.id) }}">
           <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
           <div class="form-group w-100">    
               <label for="user_file">Image Files:</label>

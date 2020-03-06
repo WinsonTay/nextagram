@@ -13,6 +13,7 @@ class User(BaseModel, UserMixin):
     username = pw.CharField(unique=True)
     email = pw.CharField(unique=True, null=False)
     profile_image = pw.CharField(null=True)
+    private = pw.BooleanField(default=False)
 
     @hybrid_property
     def profile_image_url(self):
