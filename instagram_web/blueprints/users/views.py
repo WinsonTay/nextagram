@@ -60,6 +60,7 @@ def update(id):
     if current_user.id == user.id: # Check whether current editing user is edit the own profile, if not Block authorization
         new_username = request.form.get("username")
         new_email = request.form.get("email")
+        new_privacy = request.form.get("privacy")
         if new_username != user.username:
             user.username = new_username
             if user.save():
@@ -75,6 +76,22 @@ def update(id):
             else:
                 for msg in user.errors:
                  flash(msg)
+                return redirect(url_for("users.show",id=id))
+                
+        if new_privacy != user.private: 
+            if new_privacy == 'True':
+                bool_result = True
+                privacy = "Private"
+            else:
+                bool_result = False
+                privacy = "Public"
+            user.private = bool_result   
+
+            if user.save():
+                update_msg.append(f"You just set your privacy to {privacy}")
+            else:
+                for msg in user.errors:
+                    flash(msg)
                 return redirect(url_for("users.show",id=id))
 
         for success_msg in update_msg:

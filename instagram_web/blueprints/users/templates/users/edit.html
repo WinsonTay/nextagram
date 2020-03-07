@@ -17,8 +17,8 @@
   <h4>Profile : {{ userinfo.name }} </h4>
   <div class = "row justify-content-center">
     <div class = "col-6 h-25 justify-content-center">
-      <div class ="profile_image">
-        <img class="card-img-top" src="{{ userinfo.profile_image_url }}">
+      <div class ="profile_image text-center">
+        <img class="card-img-top w-50" src="{{ userinfo.profile_image_url }}">
       </div>
     </div>
   </div>
@@ -37,6 +37,11 @@
               <label for="email">Email:</label>
               <input type='Email' value = {{userinfo.email}} name='email' class="form-control" />
               <button type="submit" class="w-100 btn btn-primary mt-2">Update</button>
+              <p>Privacy:</p>
+              <select value ="False" class = "w-100" name="privacy">
+                <option value=True {%if userinfo.private%} selected {%endif%}>Private</option>
+                <option value=False {%if not userinfo.private%} selected {%endif%}>Public</option>
+              </select>
           </div>    
         </form>
       </div>
