@@ -30,49 +30,55 @@ class User(BaseModel, UserMixin):
             return False
         else:
             return True
-
-   
-    """
-    @hybrid_method
-    def is_following(self,user):
-        check_following =FollowerFollowing.get_or_none(FollowerFollowing.idol_id == user.id and FollowerFollowing.fan_id == self.id)
-        if check_following == None:
+    
+    def is_approved_by(self,user):
+        from models.follower_following import FollowerFollowing
+        check_approved = FollowerFollowing.get_or_none((FollowerFollowing.fan_id == current_user.id) & (FollowerFollowing.idol_id == user.id) & (FollowerFollowing.approved == True) )
+        if check_approved == None:
             return False
         else:
-            return True 
-    """
-    def validate(self):
-     if(current_user.is_authenticated) and (current_user.password == self.password):
-        pass
-     else:    
-        if pwd_formatcheck(self.password) == False:
-            self.errors.append("Password must be upper case or lower case and Special Characters")
-        if len(self.password) <= 6:
-            self.errors.append("Password must be more than 6 characters")
+            return True
+    @hybrid_property
+    def requesting_follower(self):
+        from models.follower_following import FollowerFollowing
+        if self.private == True: 
+            requesting_follower = FollowerFollowing.select().where((FollowerFollowing.idol_id == self.id) & (FollowerFollowing.approved == False) )  
+            return len(requesting_follower)
         else:
-            self.password = generate_password_hash(self.password)
-     
-    #Check duplcation of user name
-     if current_user.is_authenticated:
-         if current_user.username != self.username:
+            return 0
+    
+    def validate(self):
+        if(current_user.is_authenticated) and (current_user.password == self.password):
+            pass
+        else:    
+            if pwd_formatcheck(self.password) == False:
+                self.errors.append("Password must be upper case or lower case and Special Characters")
+            if len(self.password) <= 6:
+                self.errors.append("Password must be more than 6 characters")
+            else:
+                self.password = generate_password_hash(self.password)
+        
+        #Check duplication of user name
+        if current_user.is_authenticated:
+            if current_user.username != self.username:
+                duplicate_usernames = User.get_or_none(User.username == self.username)
+                if duplicate_usernames != None:
+                    self.errors.append("User name existed")
+        else:
             duplicate_usernames = User.get_or_none(User.username == self.username)
             if duplicate_usernames:
                 self.errors.append("User name existed")
-     else:
-        duplicate_usernames = User.get_or_none(User.username == self.username)
-        if duplicate_usernames:
-            self.errors.append("User name existed")
 
-    #Check Duplication of email
-     if current_user.is_authenticated:
-         if current_user.email != self.email:
+        #Check Duplication of email
+        if current_user.is_authenticated:
+            if current_user.email != self.email:
+                duplicate_emails = User.get_or_none(User.email == self.email)
+                if duplicate_emails:
+                    self.errors.append("Email already Registered")
+        else:
             duplicate_emails = User.get_or_none(User.email == self.email)
             if duplicate_emails:
-                 self.errors.append("Email already Registered")
-     else:
-        duplicate_emails = User.get_or_none(User.email == self.email)
-        if duplicate_emails:
-            self.errors.append("Email already Registered")
+                self.errors.append("Email already Registered")
 
      # FLASK LOGIN CODE
     def is_authenticated(self):

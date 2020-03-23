@@ -43,7 +43,9 @@
           <a class="nav-item nav-link" href="{{ url_for('users.story',id = current_user.id) }}">POST A STORY</a>
           <a class="nav-item nav-link" href="{{ url_for('users.feed') }}">NEWS FEED</a>
           <a class="nav-item nav-link ml-5" href="{{ url_for('sessions.logout') }}">LOG OUT</a>
-          
+          {%if current_user.requesting_follower > 0 %}
+            <a class="text-dark nav-item nav-link" href="{{ url_for('users.feed') }}">You have {{ current_user.requesting_follower }} requesting follower</a>
+          {%endif%}
           {% else %}
           <a class="nav-item nav-link" href="{{ url_for('sessions.new') }}">LOGIN<span class="sr-only">(current)</span></a>
           {%endif%}

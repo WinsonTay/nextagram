@@ -9,14 +9,15 @@
 </ul>
 {%endif%}
 {% endwith %}  
-
+{% for error in errors if errors|length > 0 %}
+  <li class="error"><font color="red">{{error}}</font></li>
+{% endfor %}
 <head>
     <link href="https://fonts.googleapis.com/css?family=Economica&display=swap" rel="stylesheet">
     {% assets "home_css" %}
     <link rel="stylesheet" href="{{ ASSET_URL }}">
     <link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
     {% endassets %}
-  
 
     {% assets "home_js" %}
       <script type="text/javascript" src="{{ ASSET_URL }}"></script>
@@ -27,13 +28,12 @@
     <div class = "container">
         <div class = "row justify-content-center align-items-center">
             <div class ='col-4 login-logo text-center text-light'>
-                
                 THE NEW<br>NEXTAGRAM <br>
                 <img src="{{url_for('static',filename='images/camera2.png' )}}">
             </div>
-            <div class = "col-4 text-center" style = "margin-top:10vh">
-                <div class="card card-block" style ="background-color: rgba(56, 56, 55, 0.5); color:whitesmoke;">
-                    <div class="card-body"> 
+            <div class = "col-4 text-center text-dark" style = "margin-top:10vh">
+                <div class="card card-block" style ="background-color: rgba(251, 251, 251, 0.719); color:whitesmoke;">
+                    <div class="card-body text-dark"> 
                             <form method = "POST" action = "{{ url_for('sessions.login') }}">
                                 <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
                                     <div class="form-group">    
@@ -45,13 +45,52 @@
                                     <button type="submit" class="w-100 btn btn-primary">SIGN IN</button>
                             </form><hr>
                             <p>Dont Have an Account ?</p>
-                            <a class="w-100 text-light btn btn-primary"href="{{ url_for('users.new') }}">SIGN UP FOR NEXTAGRAM</a>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">SIGN UP FOR NEXTAGRAM </button>
+                            <!-- <a class="w-100 text-light btn btn-primary"href="{{ url_for('users.new') }}">SIGN UP FOR NEXTAGRAM</a> -->
                             <p>or</p>
-                            <a class="w-100 text-light btn btn-primary"href="{{ url_for('sessions.google_login') }}">LOG IN WITH GOOGLE</a>
+                            <a class="w-100 text-dark text-left btn btn-light"href="{{ url_for('sessions.google_login') }}">  
+                            <img class="google-icon mr-5" height="20" width ="20" style="background-color:white; border-radius:30%;" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>SIGN IN WITH GOOGLE
+                            </a>
                     </div>
                 </div>
             </div>
         </div>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">SIGN-UP</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method = "POST" action = "{{ url_for('users.create') }}">
+                            <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
+                            <div class="form-group w-100 text-dark">
+                                <label for="username">User Name:</label>
+                                <input type='text' name='username' class="form-control" />
+                                
+                                <label for="email">Email:</label>
+                                <input type='text' name='email' class="form-control" />
+                        
+                                <label for="password">Password:</label>
+                                <input type='password' name='password' class="form-control" />
+                        
+                                <label for="name">Full Name:</label>
+                                <input type='text' name='name' class="form-control" />
+                            </div>
+                              <button type="submit" class="btn btn-primary">SIGN UP</button>
+                        </form>
+                
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                </div>
+            </div>
     </div>
 </body>
 {%endblock%}

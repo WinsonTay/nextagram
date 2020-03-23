@@ -5,6 +5,7 @@ from instagram_web.util.s3_uploader import upload_file_to_s3
 # from models import *
 from flask_login import login_user, logout_user, login_required , current_user
 from models.user import User, Story
+from models.follower_following import FollowerFollowing
 # from models import user as u
 users_blueprint = Blueprint('users',
                             __name__,
@@ -25,15 +26,25 @@ def create():
     v = User(name = name, password=password, username =username, email = email)
     if v.save():
         flash("User successfully created.")
-        return redirect(url_for('users.new'))
+        return redirect(url_for('sessions.new'))
     else:
-        return render_template('users/new.html', errors = v.errors)
+        return render_template('sessions/new.html', errors = v.errors)
 
 @users_blueprint.route('/<id>', methods=["GET"])
 def show(id):
     userinfo = User.get_by_id(id)
-    
-    return render_template('users/index.html', userinfo=userinfo)
+    # If current user is viewing other user profile then decide to whether show profile or not
+    if (current_user.id != int(id)) & (userinfo.private == True):
+        if not current_user.is_approved_by(userinfo):
+            hide_profile = True
+        else:
+            hide_profile = False
+    else:
+        hide_profile = False
+
+        fans_info = User.select().join(FollowerFollowing, on=(User.id == FollowerFollowing.fan_id)).where((FollowerFollowing.idol_id==current_user.id) & (FollowerFollowing.approved==False))
+   
+    return render_template('users/index.html', userinfo=userinfo , hide_profile = hide_profile,fans_info=fans_info)
 """
 @users_blueprint.route('/', methods=["GET"]
 def index():
@@ -61,6 +72,13 @@ def update(id):
         new_username = request.form.get("username")
         new_email = request.form.get("email")
         new_privacy = request.form.get("privacy")
+        if new_privacy == 'True':
+            bool_privacy = True
+            privacy = "Private"
+        else:
+            bool_privacy = False
+            privacy = "Public"
+
         if new_username != user.username:
             user.username = new_username
             if user.save():
@@ -69,6 +87,7 @@ def update(id):
                 for msg in user.errors:
                  flash(msg)
                 return redirect(url_for("users.show",id=id))
+        
         if new_email != user.email:
             user.email  = new_email
             if user.save():
@@ -78,14 +97,9 @@ def update(id):
                  flash(msg)
                 return redirect(url_for("users.show",id=id))
                 
-        if new_privacy != user.private: 
-            if new_privacy == 'True':
-                bool_result = True
-                privacy = "Private"
-            else:
-                bool_result = False
-                privacy = "Public"
-            user.private = bool_result   
+        if bool_privacy != user.private: 
+            breakpoint()  
+            user.private = bool_privacy   
 
             if user.save():
                 update_msg.append(f"You just set your privacy to {privacy}")
@@ -171,6 +185,12 @@ def story_post(id):
     flash("You Just Posted a new Story")
     return redirect(url_for('users.show', id = id))
 
-
+@users_blueprint.route('/<fan_id>/<idol_id>/approved', methods=['POST'])
+@login_required
+def approve_user(fan_id, idol_id):
+    approve = FollowerFollowing.update(approved=True).where((FollowerFollowing.fan_id==fan_id) & (FollowerFollowing.idol_id==idol_id))
+    approve.execute()
+    flash(f"You Just Approved Someone {fan_id} {idol_id}")
+    return redirect(url_for('users.show', id = current_user.id))
 
     

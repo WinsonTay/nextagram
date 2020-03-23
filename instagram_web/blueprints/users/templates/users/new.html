@@ -14,10 +14,10 @@
   <li class="error"><font color="red">{{error}}</font></li>
 {% endfor %}
 <div class ="container justify-content-center">
-<h1 class ="">SIGN UP</h1>
+<h1 class ="text-light">SIGN UP</h1>
 <form method = "POST" action = "{{ url_for('users.create') }}">
     <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
-    <div class="form-group w-50">
+    <div class="form-group w-50 text-light">
         <label for="username">User Name:</label>
         <input type='text' name='username' class="form-control" />
         

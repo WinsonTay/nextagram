@@ -20,14 +20,19 @@
       {%for story in user.stories%}
       <div class="card">
           <div class="card-body profile_pic">
-              <img class="mr-1" src="{{ user.profile_image_url }}"> {{ user.name }}
+              <img class="mr-1" src="{{ user.profile_image_url }}"> <a class ="text-light" href= "{{ url_for('users.show', id = user.id) }}">  {{ user.name }} </a>
               {%if user.id != current_user.id %}
                 <span>
                 <form class ="ml-5" method ="POST", action ="{{ url_for('follower_following.create', idol_id = user.id) }}">                    
                     <input type = "hidden" name = "csrf_token" value = "{{ csrf_token() }}" />
                     {% if current_user.is_following(user) %}
                     <button formmethod="POST" formaction="{{ url_for('follower_following.delete',idol_id = user.id) }}" type="submit" class="ml-2 w-10 h-10 btn btn-primary mt-2">
-                        UNFOLLOW 
+                        {%if current_user.is_approved_by(user) or user.private == False %}
+                            FOLLOWING
+                        {%else%}
+                            REQUESTING
+                        {%endif%}
+                      
                     </button>
                     {%else%}
                     <button type="submit" class="ml-2 w-10 h-10 btn btn-primary mt-2" >
